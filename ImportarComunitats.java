@@ -6,7 +6,7 @@ public class ImportarComunitats {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 
-			Connection con = DriverManager.getConnection("jdbc:mysql://192.168.75.129:3306/rrhh", "usuari", "paraulapas");
+			Connection con = DriverManager.getConnection("jdbc:mysql://192.168.75.129:3306/rrhh", "perepi", "pastanaga");
 
 			// Preparem el Date
 			Calendar calendar = Calendar.getInstance();
