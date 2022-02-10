@@ -156,7 +156,7 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `mydb`.`persones` ;
 
 CREATE TABLE IF NOT EXISTS `mydb`.`persones` (
-  `persona_id` INT UNSIGNED NOT NULL,
+  `persona_id` INT UNSIGNED NOT NULL AUTO_INCREMENTAL,
   `nom` VARCHAR(30) NULL,
   `cog1` VARCHAR(30) NULL,
   `cog2` VARCHAR(30) NULL,
