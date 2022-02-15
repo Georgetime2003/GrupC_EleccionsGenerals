@@ -17,15 +17,15 @@ public class Main {
             java.sql.Date startDate = new java.sql.Date(calendar.getTime().getTime());
 
             // the mysql insert statement
-            String query = " INSERT INTO empleats (candidatura_id,eleccio_id,municipi_id,vots)"
+            String query = " INSERT INTO vots_candidatures_mun (candidatura_id,eleccio_id,municipi_id,vots)"
                     + " values (?, ?, ?, ?)";
 
             // create the mysql insert preparedstatement
             PreparedStatement preparedStmt = con.prepareStatement(query);
-            preparedStmt.setInt    (1, 300);
-            preparedStmt.setString (2, "Pere");
-            preparedStmt.setString (3, "Pi");
-            preparedStmt.setString (4, "perepi@sapalomera.cat");
+            preparedStmt.setInt    (1, );
+            preparedStmt.setString (2, "");
+            preparedStmt.setString (3, "");
+            preparedStmt.setString (4, "");
 
             // execute the preparedstatement
             preparedStmt.execute();
