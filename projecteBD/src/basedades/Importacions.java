@@ -22,7 +22,7 @@ public class Importacions {
             while ((st = br.readLine()) != null) {
                 int codiINEComunitat = Integer.parseInt(llegirSegonsLlargada(10, 2, st));
                 int codiINE = Integer.parseInt(llegirSegonsLlargada(12,2,st));
-                String nomComunitat = llegirSegonsLlargada(15, 50, st);
+                String nomComunitat = llegirSegonsLlargada(15, 50, st).trim();
 
                 if (codiINE == 99 && codiINEComunitat != 99) {
                     // the mysql insert statement
@@ -53,20 +53,36 @@ public class Importacions {
             String st;
 
             while ((st = br.readLine()) != null) {
-                String nomProvincia = llegirSegonsLlargada(15, 50, st);
+                String nomProvincia = llegirSegonsLlargada(15, 50, st).trim();
                 int codiINEComunitat = Integer.parseInt(llegirSegonsLlargada(10, 2, st));
                 int codiINE = Integer.parseInt(llegirSegonsLlargada(12,2,st));
                 int codiComunitat = Integer.parseInt(llegirSegonsLlargada(10, 2, st));
                 int numEscons = Integer.parseInt(llegirSegonsLlargada(150,6,st));
 
+                //Treure codi id de provincies
+                int comunitat_aut_id = treureIdComunAmbINE(codiINEComunitat);
+
                 if (codiINE != 99 && codiComunitat != 99) {
-                    System.out.println(nomProvincia + " " + codiINE + " " + numEscons + " " + codiComunitat);
+
+                    // the mysql insert statement
+                    String query = "INSERT INTO provincies (comunitat_aut_id,nom,codi_ine,num_escons)"
+                            + " values (?, ?, ?, ?)";
+
+                    // create the mysql insert preparedstatement
+                    PreparedStatement preparedStmt = con.prepareStatement(query);
+
+                    preparedStmt.setInt(1, comunitat_aut_id);
+                    preparedStmt.setString(2, nomProvincia);
+                    preparedStmt.setInt(3, codiINE);
+                    preparedStmt.setInt(4, numEscons);
+
+                    // execute the preparedstatement
+                    preparedStmt.execute();
+
                 }
-
-
-
             }
-        } catch (IOException e) {
+
+        } catch (IOException | SQLException e) {
             e.printStackTrace();
         }
     }
@@ -109,7 +125,7 @@ public class Importacions {
         return stringTornar;
     }
 
-    private static int treureIdComunAmbINE(String codiINEComuni) {
+    public static int treureIdComunAmbINE(int codiINEComunitat) {
         int id_comuni = 0;
 
         try {
@@ -117,25 +133,23 @@ public class Importacions {
 
             //SENTÈNCIA SELECT
             //Preparem una sentència amb paràmetres.
-            String query = "SELECT comunitat_aut_id " +
-                    " FROM comunitats_autonomes " +
-                    "WHERE codi_ine = ";
+            String query = "SELECT comunitat_aut_id FROM comunitats_autonomes WHERE codi_ine = " + codiINEComunitat + ";";
             PreparedStatement preparedStmt = con.prepareStatement(query);
 
 
             ResultSet rs = preparedStmt.executeQuery();
 
             while(rs.next()) {
-                System.out.println(rs.getInt("empleat_id") +
-                        "  " + rs.getString("nom") +
-                        "  " + rs.getDate("data_contractacio"));
+                //System.out.println(rs.getInt("comunitat_aut_id"));
+                id_comuni = rs.getInt("comunitat_aut_id");
             }
-            con.close();
+
+
         }catch(Exception e){
             System.out.println(e);
         }
 
-        
+
         return id_comuni;
     }
 

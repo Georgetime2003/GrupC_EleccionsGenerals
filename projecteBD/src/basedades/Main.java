@@ -1,6 +1,8 @@
 package basedades;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
+import java.util.Calendar;
 
 public class Main {
 
@@ -8,7 +10,7 @@ public class Main {
 
     public static void main(String[] args) {
 
-        /*
+
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
 
@@ -21,13 +23,16 @@ public class Main {
             //Importacio de les Comunitats Autonomes
             Importacions.importarComunitatsAutonomes();
 
-            //Tanquem la connexi?
+            //Importacio de les Provincies
+            Importacions.importarProvincies();
+
+            //Tanquem la connexió
             con.close();
         } catch (Exception e) {
             System.out.println(e);
-        }*/
+        }
 
-        Importacions.importarProvincies();
+
 
         }
     }
