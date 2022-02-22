@@ -166,7 +166,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`persones` (
   `cog2` VARCHAR(30) NULL,
   `sexe` ENUM('M', 'F') NULL COMMENT 'M=Masculí, F=Femení',
   `data_naixement` DATE NULL,
-  `dni` CHAR(10) NOT NULL,
+  `dni` CHAR(10),
   PRIMARY KEY (`persona_id`),
   UNIQUE INDEX `uk_candidats_dni` (`dni` ASC) VISIBLE)
 ENGINE = InnoDB;
