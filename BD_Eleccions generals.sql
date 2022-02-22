@@ -96,6 +96,8 @@ CREATE TABLE IF NOT EXISTS `mydb`.`eleccions` (
   UNIQUE INDEX `uk_eleccions_data` (`data` ASC) VISIBLE)
 ENGINE = InnoDB;
 
+INSERT eleccions(nom,data)
+	VALUE ("Eleccio-06-2016",20160626);
 
 -- -----------------------------------------------------
 -- Table `mydb`.`eleccions_municipis`
