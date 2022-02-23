@@ -91,6 +91,8 @@ CREATE TABLE IF NOT EXISTS `mydb`.`eleccions` (
   UNIQUE INDEX `uk_eleccions_any_mes` (`any` ASC, `mes` ASC) VISIBLE,
   UNIQUE INDEX `uk_eleccions_data` (`data` ASC) VISIBLE)
 ENGINE = InnoDB;
+INSERT eleccions(nom,data)
+	VALUE ("Eleccio-06-2016",20160626);
 
 
 -- -----------------------------------------------------
@@ -162,7 +164,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`persones` (
   `cog2` VARCHAR(30) NULL,
   `sexe` ENUM('M', 'F') NULL COMMENT 'M=Masculí, F=Femení',
   `data_naixement` DATE NULL,
-  `dni` CHAR(10) NOT NULL,
+  `dni` CHAR(10),
   PRIMARY KEY (`persona_id`),
   UNIQUE INDEX `uk_candidats_dni` (`dni` ASC) VISIBLE)
 ENGINE = InnoDB;
