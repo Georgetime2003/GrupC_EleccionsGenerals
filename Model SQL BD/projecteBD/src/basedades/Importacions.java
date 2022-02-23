@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -44,7 +45,6 @@ public class Importacions {
             e.printStackTrace();
         }
     }
-
 
     public static void importarProvincies() {
         File file = new File("./fitxers/07021606.DAT");
@@ -88,14 +88,47 @@ public class Importacions {
         }
     }
 
+    public static void importareleccions(){
+        File file = new File("./fitxers/02021606.DAT");
+
+        try (
+                BufferedReader br = new BufferedReader(new FileReader(file))) {
+            String st;
+
+            while ((st = br.readLine()) != null) {
+
+
+                String dia = String.valueOf(llegirSegonsLlargada(13, 2, st));
+                String mes = String.valueOf(llegirSegonsLlargada(15, 2, st));
+                String any = String.valueOf(llegirSegonsLlargada(17, 4, st));
+
+                // the mysql insert statement
+                String query = "INSERT INTO eleccions (nom,data)"
+                        + " values (?, ?)";
+
+                // create the mysql insert preparedstatement
+                PreparedStatement preparedStmt = con.prepareStatement(query);
+
+                preparedStmt.setString(1, "Eleccions-06-2016");
+                String data = String.join("-", any, mes, dia);
+                preparedStmt.setDate(2, Date.valueOf(data));
+
+                // execute the preparedstatement
+                preparedStmt.execute();
+            }
+        } catch (IOException | SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static int treureIdComunAmbINE(int codiINEComunitat) {
         int id_comuni = 0;
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
 
-            //SENTÈNCIA SELECT
-            //Preparem una sentència amb paràmetres.
+            //SENTÃˆNCIA SELECT
+            //Preparem una sentÃ¨ncia amb parÃ metres.
             String query = "SELECT comunitat_aut_id FROM comunitats_autonomes WHERE codi_ine = " + codiINEComunitat + ";";
             PreparedStatement preparedStmt = con.prepareStatement(query);
 
@@ -174,8 +207,8 @@ public class Importacions {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
 
-            //SENTÈNCIA SELECT
-            //Preparem una sentència amb paràmetres.
+            //SENTÃˆNCIA SELECT
+            //Preparem una sentÃ¨ncia amb parÃ metres.
             String query = "SELECT provincia_id " +
                     " FROM provincies " +
                     "WHERE codi_ine = "+ codiINEComuni + ";";
