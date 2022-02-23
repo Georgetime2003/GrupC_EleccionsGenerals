@@ -22,6 +22,9 @@ public class Main {
             //Importacio de les Comunitats Autonomes
             Importacions.importarComunitatsAutonomes();
 
+            //importar eleccions
+            Importacions.importareleccions();
+
             //Importacio de provincies
             Importacions.importarProvincies();
 
