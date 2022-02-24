@@ -132,11 +132,21 @@ public class Importacions {
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
 
             String st;
+            String[] nom;
 
             while ((st = br.readLine()) != null) {
+
                 String nom_pers = llegirSegonsLlargada(26, 25, st).trim();
                 String cog1_pers = llegirSegonsLlargada(51, 25, st).trim();
                 String cog2_pers = llegirSegonsLlargada(76, 25, st).trim();
+
+                //modifica el cog1_pers si nomes conte un "i" per la segona paraula del nom.
+                if (cog1_pers.equals("i")) {
+                    nom = nom_pers.split(" ");
+                    nom_pers = nom[0];
+                    cog1_pers = nom[1];
+                }
+
                 int dia = Integer.parseInt(llegirSegonsLlargada(102, 2, st));
                 int mes = Integer.parseInt(llegirSegonsLlargada(104, 2, st));
                 int any = Integer.parseInt(llegirSegonsLlargada(106, 4, st));
@@ -146,8 +156,10 @@ public class Importacions {
                 PreparedStatement preparedStmt = con.prepareStatement(query);
 
                 preparedStmt.setString(1, nom_pers);
-                preparedStmt.setString(2,cog1_pers);
+                preparedStmt.setString(2, cog1_pers);
                 preparedStmt.setString(3, cog2_pers);
+
+                //si la data es un 0 el camp sera null pero si no escriu la data.
                 if (any != 0) {
                     Date data_naixement = Date.valueOf(any + "-" + mes + "-" + dia);
                     //System.out.println(nom_pers + " " + cog1_pers + " " + cog2_pers + " "  + data_naixement);
@@ -172,6 +184,7 @@ public class Importacions {
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
 
             String st;
+            String[] nom;
 
             while ((st = br.readLine()) != null) {
                 String candidatura_codi = llegirSegonsLlargada(16, 6, st);
@@ -179,10 +192,16 @@ public class Importacions {
                 String nom_pers = llegirSegonsLlargada(26, 25, st).trim();
                 String cog1_pers = llegirSegonsLlargada(51, 25, st).trim();
                 String cog2_pers = llegirSegonsLlargada(76, 25, st).trim();
+                if (cog1_pers.equals("i")) {
+                    nom = nom_pers.split(" ");
+                    nom_pers = nom[0];
+                    cog1_pers = nom[1];
+                }
+
                 int persona_id = obtenirPersona_id(nom_pers, cog1_pers, cog2_pers);
 
                 int codiINEPro = Integer.parseInt(llegirSegonsLlargada(10,2,st));
-                int provicia_id  = obtenirProvincia_id(codiINEPro);
+                int provincia_id  = obtenirProvincia_id(codiINEPro);
 
                 int num_ordre = Integer.parseInt(llegirSegonsLlargada(22, 3, st));
                 String tipus = llegirSegonsLlargada(25, 1, st);
@@ -196,7 +215,7 @@ public class Importacions {
 
                 preparedStmt.setInt(1, candidatura_id);
                 preparedStmt.setInt(2, persona_id);
-                preparedStmt.setInt(3, provicia_id);
+                preparedStmt.setInt(3, provincia_id);
                 preparedStmt.setInt(4, num_ordre);
                 preparedStmt.setString(5, tipus);
                 //System.out.println(preparedStmt);
@@ -283,6 +302,48 @@ public class Importacions {
 
             }
         System.out.println("La taula de Candidatures s'ha importat correctament.");
+        } catch (IOException | SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void importarVotsProvincies() {
+        File file = new File("./fitxers/08021606.DAT");
+
+        try (
+                BufferedReader br = new BufferedReader(new FileReader(file))) {
+            String st;
+
+            while ((st = br.readLine()) != null) {
+
+                int provincia_INE = Integer.parseInt(llegirSegonsLlargada(12, 2, st));
+                int provincia_id = obtenirProvincia_id(provincia_INE);
+                String codi_candidatura = llegirSegonsLlargada(15, 6, st);
+                int candidatura_id = obtenirCandidatura_id(codi_candidatura);
+                int vots = Integer.parseInt(llegirSegonsLlargada(21, 8, st));
+                int candidats_obtinguts = Integer.parseInt(llegirSegonsLlargada(29, 5, st));
+
+                //agafar nomes les dades que la provincia no es 99
+                if (provincia_INE != 99) {
+
+                    // the mysql insert statement
+                    String query = "INSERT INTO vots_candidatures_prov (provincia_id, candidatura_id,vots,candidats_obtinguts)"
+                            + " values (?, ?, ?, ?)";
+
+                    // create the mysql insert preparedstatement
+                    PreparedStatement preparedStmt = con.prepareStatement(query);
+
+                        preparedStmt.setInt(1, provincia_id);
+                        preparedStmt.setInt(2, candidatura_id);
+                        preparedStmt.setInt(3, vots );
+                        preparedStmt.setInt(4, candidats_obtinguts);
+
+                    // execute the preparedstatement
+                    preparedStmt.execute();
+                }
+
+            }
+            System.out.println("La taula de Vots Candidatures per Provincies s'ha importat correctament.");
         } catch (IOException | SQLException e) {
             e.printStackTrace();
         }

@@ -23,6 +23,8 @@ public class Main {
 
             //Importacio de les Provincies
             Importacions.importarProvincies();
+
+            //Importacio de les Municipis
             Importacions.importarMunicipis();
 
             //Importacio de Eleccions
@@ -31,8 +33,15 @@ public class Main {
             //Importacio de les Persones
             Importacions.importarPersones();
 
+            //Importacio de les Candidatures
             Importacions.importarCandidatures();
+
+            //Importacio de les Candidats
             Importacions.importarCandidats();
+
+            //Importacio de les Vots Candidatures per Provincies
+            Importacions.importarVotsProvincies();
+
 
             //Tanquem la connexió
             con.close();
