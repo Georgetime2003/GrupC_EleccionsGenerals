@@ -23,6 +23,23 @@ public class Main {
             //Importacio de les Comunitats Autonomes
             Importacions.importarComunitatsAutonomes();
 
+<<<<<<< Updated upstream
+=======
+            //Importacio de les eleccions
+            Importacions.importareleccions();
+
+            //Importacio de provincies
+            Importacions.importarProvincies();
+
+            //Importacio de municipis
+            Importacions.importarMunicipis();
+
+            //Importacio de Partits Canditatures
+            Importacions.importarPartitsCandtatures();
+            //System.out.println(Importacions.treureprovincia_id(6));
+            //Importacio de Vots a nivell municipal
+            Importacions.importarVotsMunicipis();
+>>>>>>> Stashed changes
             //Tanquem la connexi?
             //con.close();
         } catch (Exception e) {

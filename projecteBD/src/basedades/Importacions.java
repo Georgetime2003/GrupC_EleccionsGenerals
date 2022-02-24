@@ -233,6 +233,104 @@ public class Importacions {
         return 0;
     }
 
+    public static void importarVotsMunicipis() {
+        File file = new File("./fitxers/06021606.DAT");
+        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
 
+            String st;
+            while ((st = br.readLine()) != null) {
+                int eleccio_id = extreureEleccio_id();
+                int municipi_id = extreureMunicipi_id();
+                int candidatura_id = extreureCandidatura_id();
+                int vots = Integer.parseInt(llegirSegonsLlargada(23, 8, st));
+                String query = "INSERT INTO vots_candidatures_mun (eleccio_id,municipi_id,candidatura_id,vots)"
+                        + " values (?, ?, ?, ?)";
+                PreparedStatement preparedStmt = con.prepareStatement(query);
+
+                preparedStmt.setInt(1, eleccio_id);
+                preparedStmt.setInt(2, municipi_id);
+                preparedStmt.setInt(3, candidatura_id);
+                preparedStmt.setInt(4, vots);
+                // execute the preparedstatement
+                preparedStmt.execute();
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private static int extreureEleccio_id() {
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+
+            //SENT?NCIA SELECT
+            //Preparem una sent?ncia amb par?metres.
+            String query = "SELECT eleccio_id " +
+                    " FROM eleccions_municipis " +
+                    "WHERE eleccio_id = ";
+            PreparedStatement preparedStmt = con.prepareStatement(query);
+
+
+            ResultSet rs = preparedStmt.executeQuery();
+            return rs.getInt("eleccio_id");
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    private static int extreureMunicipi_id() {
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+
+            //SENT?NCIA SELECT
+            //Preparem una sent?ncia amb par?metres.
+            String query = "SELECT municipi_id " +
+                    " FROM eleccions_municipis " +
+                    "WHERE municipi_id = ";
+            PreparedStatement preparedStmt = con.prepareStatement(query);
+
+
+<<<<<<< Updated upstream
 }
+=======
+            ResultSet rs = preparedStmt.executeQuery();
+            return rs.getInt("municipi_id");
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    private static int extreureCandidatura_id() {
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+
+            //SENT?NCIA SELECT
+            //Preparem una sent?ncia amb par?metres.
+            String query = "SELECT candidatura_id " +
+                    " FROM candidatures " +
+                    "WHERE candidatura_id = ";
+            PreparedStatement preparedStmt = con.prepareStatement(query);
+
+
+            ResultSet rs = preparedStmt.executeQuery();
+            return rs.getInt("eleccio_id");
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    }
+>>>>>>> Stashed changes
 
