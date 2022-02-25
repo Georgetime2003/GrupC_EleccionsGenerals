@@ -9,7 +9,6 @@ public class Main {
     public static Connection con;
 
     public static void main(String[] args) {
-
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
 
@@ -22,23 +21,35 @@ public class Main {
             //Importacio de les Comunitats Autonomes
             Importacions.importarComunitatsAutonomes();
 
-            //importar eleccions
-            Importacions.importareleccions();
-
-            //Importacio de provincies
+            //Importacio de les Provincies
             Importacions.importarProvincies();
 
-            //Immportacio de municipis
+            //Importacio de les Municipis
             Importacions.importarMunicipis();
-            //System.out.println(Importacions.treureprovincia_id(6));
 
-            //Tanquem la connexi?
+            //Importacio de Eleccions
+            Importacions.importarEleccions();
+
+            //Importacio de les Persones
+            Importacions.importarPersones();
+
+            //Importacio de les Candidatures
+            Importacions.importarCandidatures();
+
+            //Importacio de les Candidats
+            Importacions.importarCandidats();
+
+            //Importacio de les Vots Candidatures per Provincies
+            Importacions.importarVotsProvincies();
+
+            ////Importacio de les Vots Candidatures per Provincies
+            Importacions.importarVotsCandidatures_ca();
+
+
+            //Tanquem la connexió
             con.close();
         } catch (Exception e) {
             System.out.println(e);
         }
-
-        //Importacions.importarProvincies();
-
-        }
     }
+}
