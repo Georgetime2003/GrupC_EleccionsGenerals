@@ -31,8 +31,11 @@ public class Main {
             //Immportacio de municipis
             Importacions.importarMunicipis();
 
-            //Importacio de Partits Canditatures
+            //Importacio de Partits Candidatures
             Importacions.importarPartitsCandtatures();
+
+            //Importacio d'Eleccions Municipis
+            Importacions.importarEleccionsMunicipi();
             //System.out.println(Importacions.treureprovincia_id(6));
 
             //Tanquem la connexi?

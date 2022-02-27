@@ -204,6 +204,7 @@ public class Importacions {
                 String nom_curt = llegirSegonsLlargada(15, 50, st).trim();
                 String nom_llarg = llegirSegonsLlargada(65, 150, st).trim();
 
+
                 //Treure codi id de eleccions
                 int eleccio_id = treureEleccioId();
 
@@ -298,7 +299,95 @@ public class Importacions {
         return id_provincia;
     }
 
+    public static void importarEleccionsMunicipi(){
+        File file = new File("./fitxers/05021606.DAT");
+        int municipi_id = 0;
+        try (
+                BufferedReader br = new BufferedReader(new FileReader(file))) {
+            String st;
 
+            while ((st = br.readLine()) != null) {
+                //Afegir 1 a municipi_id
+                municipi_id++;
+                //Treure districtes
+                int districe = Integer.parseInt(llegirSegonsLlargada(17, 2, st));
+                if (districe == 99) {
+                    int num_meses = Integer.parseInt(llegirSegonsLlargada(137, 5, st));
+                    int cens = Integer.parseInt(llegirSegonsLlargada(150, 8, st));
+                    int vots_canditatures = Integer.parseInt(llegirSegonsLlargada(206, 8, st));
+                    int vots_blanc = Integer.parseInt(llegirSegonsLlargada(190, 8, st));
+                    int vots_nuls = Integer.parseInt(llegirSegonsLlargada(198, 8, st));
 
+                    //Agafar codi INE municipis per aixi treure municipi_id
+                    String nom_municipi= (llegirSegonsLlargada(19, 100, st));
+                    nom_municipi = nom_municipi.trim();
+                    municipi_id = treureMunicipiid(municipi_id, nom_municipi);
+                    if (municipi_id == 0) break;
+                    //Treure els vots emesos i valids
+                    int vots_emesos = vots_blanc + vots_nuls + vots_canditatures;
+                    int vots_valids = vots_emesos - vots_nuls;
+
+                    //Treure codi id de eleccions
+                    int eleccio_id = treureEleccioId();
+
+                    // the mysql insert statement
+                    String query = "INSERT INTO eleccions_municipis (eleccio_id,municipi_id,num_meses,cens,vots_emesos,vots_valids,vots_candidatures,vots_blanc,vots_nuls)"
+                            + " values (?, ?, ?, ? ,?, ?, ?, ?, ?)";
+
+                    // create the mysql insert preparedstatement
+                    PreparedStatement preparedStmt = con.prepareStatement(query);
+
+                    preparedStmt.setInt(1, eleccio_id);
+                    preparedStmt.setInt(2, municipi_id);
+                    preparedStmt.setInt(3, num_meses);
+                    preparedStmt.setInt(4, cens);
+                    preparedStmt.setInt(5, vots_emesos);
+                    preparedStmt.setInt(6, vots_valids);
+                    preparedStmt.setInt(7, vots_canditatures);
+                    preparedStmt.setInt(8, vots_blanc);
+                    preparedStmt.setInt(9, vots_nuls);
+
+                    // execute the preparedstatement
+                    preparedStmt.execute();
+                    System.out.println(eleccio_id + " " + municipi_id + " " + num_meses + " " + cens + " " + vots_emesos + " " + vots_valids + " " + vots_canditatures + " " + vots_blanc + " " + vots_nuls);
+
+                }
+            }
+        } catch (IOException | SQLException e) {
+            e.printStackTrace();
+        }
     }
+    private static int treureMunicipiid(int municipi_id, String nom_municipi){
+
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+
+            //SENTÈNCIA SELECT
+            //Preparem una sentència amb paràmetres.
+            String query = "SELECT municipi_id " +
+                    " FROM municipis m " +
+                    "JOIN provincies USING(provincia_id) " +
+                    "WHERE m.nom = \"" + nom_municipi + "\" && m.municipi_id = " + municipi_id;
+
+            PreparedStatement preparedStmt = con.prepareStatement(query);
+
+
+            ResultSet rs = preparedStmt.executeQuery();
+
+            while(rs.next()) {
+                //System.out.println(rs.getInt("provincia_id"));
+                municipi_id = rs.getInt("municipi_id");
+                System.out.println(municipi_id);
+            }
+
+        }catch(Exception e){
+            System.out.println(e);
+            return 0;
+        }
+
+
+        return municipi_id;
+    }
+    }
+
 
