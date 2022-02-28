@@ -42,8 +42,11 @@ public class Main {
             //Importacio de les Vots Candidatures per Provincies
             Importacions.importarVotsProvincies();
 
-            ////Importacio de les Vots Candidatures per Provincies
+            //Importacio de les Vots Candidatures per Provincies
             Importacions.importarVotsCandidatures_ca();
+
+            //Importacio de eleccions_municipis
+            Importacions.importarEleccionsMunicipi();
 
 
             //Tanquem la connexió
