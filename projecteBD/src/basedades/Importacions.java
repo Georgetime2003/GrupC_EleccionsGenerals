@@ -319,9 +319,9 @@ public class Importacions {
                     int vots_nuls = Integer.parseInt(llegirSegonsLlargada(198, 8, st));
 
                     //Agafar codi INE municipis per aixi treure municipi_id
-                    String nom_municipi= (llegirSegonsLlargada(19, 100, st));
-                    nom_municipi = nom_municipi.trim();
-                    municipi_id = treureMunicipiid(municipi_id, nom_municipi);
+                    int ine_municipi = Integer.parseInt(llegirSegonsLlargada(14, 3, st));
+                    int ine_provincia = Integer.parseInt(llegirSegonsLlargada(12, 2, st));
+                    municipi_id = obtenirMunicipiid(ine_municipi, ine_provincia);
                     if (municipi_id == 0) break;
                     //Treure els vots emesos i valids
                     int vots_emesos = vots_blanc + vots_nuls + vots_canditatures;
@@ -357,8 +357,8 @@ public class Importacions {
             e.printStackTrace();
         }
     }
-    private static int treureMunicipiid(int municipi_id, String nom_municipi){
-
+    private static int obtenirMunicipiid(int ine_municipi, int ine_provincia){
+        int municipi_id = 0;
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
 
@@ -366,8 +366,8 @@ public class Importacions {
             //Preparem una sentència amb paràmetres.
             String query = "SELECT municipi_id " +
                     " FROM municipis m " +
-                    "JOIN provincies USING(provincia_id) " +
-                    "WHERE m.nom = \"" + nom_municipi + "\" && m.municipi_id = " + municipi_id;
+                    "INNER JOIN provincies p ON p.provincia_id = m.provincia_id " +
+                    "WHERE m.codi_ine = " + ine_municipi + " && p.codi_ine = " + ine_provincia;
 
             PreparedStatement preparedStmt = con.prepareStatement(query);
 
