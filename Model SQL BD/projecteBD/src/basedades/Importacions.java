@@ -392,6 +392,65 @@ public class Importacions {
 
     }
 
+    public static void importarEleccionsMunicipi(){
+        File file = new File("./fitxers/05021606.DAT");
+        int municipi_id = 0;
+        try (
+                BufferedReader br = new BufferedReader(new FileReader(file))) {
+            String st;
+
+            while ((st = br.readLine()) != null) {
+                //Afegir 1 a municipi_id
+                municipi_id++;
+                //Treure districtes
+                int districe = Integer.parseInt(llegirSegonsLlargada(17, 2, st));
+                if (districe == 99) {
+                    int num_meses = Integer.parseInt(llegirSegonsLlargada(137, 5, st));
+                    int cens = Integer.parseInt(llegirSegonsLlargada(150, 8, st));
+                    int vots_canditatures = Integer.parseInt(llegirSegonsLlargada(206, 8, st));
+                    int vots_blanc = Integer.parseInt(llegirSegonsLlargada(190, 8, st));
+                    int vots_nuls = Integer.parseInt(llegirSegonsLlargada(198, 8, st));
+
+                    //Agafar codi INE municipis per aixi treure municipi_id
+                    int ine_municipi = Integer.parseInt(llegirSegonsLlargada(14, 3, st));
+                    int ine_provincia = Integer.parseInt(llegirSegonsLlargada(12, 2, st));
+                    municipi_id = obtenirMunicipiid(ine_municipi, ine_provincia);
+                    if (municipi_id == 0) break;
+                    //Treure els vots emesos i valids
+                    int vots_emesos = vots_blanc + vots_nuls + vots_canditatures;
+                    int vots_valids = vots_emesos - vots_nuls;
+
+                    //Treure codi id de eleccions
+                    int eleccio_id = obtenirEleccioId();
+
+                    // the mysql insert statement
+                    String query = "INSERT INTO eleccions_municipis (eleccio_id,municipi_id,num_meses,cens,vots_emesos,vots_valids,vots_candidatures,vots_blanc,vots_nuls)"
+                            + " values (?, ?, ?, ? ,?, ?, ?, ?, ?)";
+
+                    // create the mysql insert preparedstatement
+                    PreparedStatement preparedStmt = con.prepareStatement(query);
+
+                    preparedStmt.setInt(1, eleccio_id);
+                    preparedStmt.setInt(2, municipi_id);
+                    preparedStmt.setInt(3, num_meses);
+                    preparedStmt.setInt(4, cens);
+                    preparedStmt.setInt(5, vots_emesos);
+                    preparedStmt.setInt(6, vots_valids);
+                    preparedStmt.setInt(7, vots_canditatures);
+                    preparedStmt.setInt(8, vots_blanc);
+                    preparedStmt.setInt(9, vots_nuls);
+
+                    // execute the preparedstatement
+                    preparedStmt.execute();
+                    //System.out.println(eleccio_id + " " + municipi_id + " " + num_meses + " " + cens + " " + vots_emesos + " " + vots_valids + " " + vots_canditatures + " " + vots_blanc + " " + vots_nuls);
+                }
+            }
+            System.out.println("La taula de eleccions municipi s'ha importat correctament.");
+        } catch (IOException | SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     private static int obtenirEleccioId() {
         int eleccioid = 0;
         try {
@@ -415,7 +474,7 @@ public class Importacions {
         return eleccioid;
     }
 
-    public static int obtenirPersona_id(String nom_pers, String cog1_pers, String cog2_pers) {
+    private static int obtenirPersona_id(String nom_pers, String cog1_pers, String cog2_pers) {
         int id_persona = 0;
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -445,7 +504,7 @@ public class Importacions {
 
     }
 
-    public static int obtenirCandidatura_id(String candidatura_codi) {
+    private static int obtenirCandidatura_id(String candidatura_codi) {
         int id_candidatura = 0;
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -472,7 +531,7 @@ public class Importacions {
 
     }
 
-    public static int obtenirProvincia_id(int codiINEPro) {
+    private static int obtenirProvincia_id(int codiINEPro) {
         int id_provincia = 0;
 
         try {
@@ -503,7 +562,7 @@ public class Importacions {
     }
 
 
-    public static int obtenirIdComunAmbINE(int codiINEComunitat) {
+    private static int obtenirIdComunAmbINE(int codiINEComunitat) {
         int id_comuni = 0;
 
         try {
@@ -529,6 +588,38 @@ public class Importacions {
 
 
         return id_comuni;
+    }
+
+    private static int obtenirMunicipiid(int ine_municipi, int ine_provincia){
+        int municipi_id = 0;
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+
+            //SENTÈNCIA SELECT
+            //Preparem una sentència amb paràmetres.
+            String query = "SELECT municipi_id " +
+                    " FROM municipis m " +
+                    "INNER JOIN provincies p ON p.provincia_id = m.provincia_id " +
+                    "WHERE m.codi_ine = " + ine_municipi + " && p.codi_ine = " + ine_provincia;
+
+            PreparedStatement preparedStmt = con.prepareStatement(query);
+
+
+            ResultSet rs = preparedStmt.executeQuery();
+
+            while(rs.next()) {
+                //System.out.println(rs.getInt("provincia_id"));
+                municipi_id = rs.getInt("municipi_id");
+                System.out.println(municipi_id);
+            }
+
+        }catch(Exception e){
+            System.out.println(e);
+            return 0;
+        }
+
+
+        return municipi_id;
     }
 
     private static String llegirSegonsLlargada(int longiInci, int llargadaALlegir, String st) {
