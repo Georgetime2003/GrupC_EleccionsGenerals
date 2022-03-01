@@ -1,31 +1,30 @@
 # Categoria 3
 
-**1. Quin és el nom i cognom dels candidats a la província de Girona?**
+**1. Quin és el nom i cognom dels candidats a la província de Córdoba?**
 ```sql
-SELECT p.nom, p.cog1, p.cog2
+SELECT p.persona_id, p.nom, p.cog1, p.cog2
 	FROM persones p
-WHERE persona_id = ( SELECT c.persona_id
-					    FROM candidats c
-                    INNER JOIN provincies p2 ON p2.provincia_id = c.provincia_id
-                    WHERE p2.nom = 'Girona');
+    INNER JOIN candidats c ON c.persona_id = p.persona_id
+WHERE c.provincia_id = ( SELECT provincia_id
+						FROM provincies
+                        WHERE nom = 'Córdoba');
 
 ```
-**2. Mostra el nom curt i nom llarg de les candidatures de tipus T.**
+**2. Mostra el nom curt i nom llarg de les candidatures amb el numero d'ordre 1.**
 ```sql
-SELECT cs.nom_curt, cs.nom_llarg
-	FROM candidatures cs
-INNER JOIN candidats c ON c.candidatura_id = cs.candidatura_id
-WHERE c.candidatura_id = (SELECT candidatura_id
-							    FROM candidats
-							WHERE tipus = 'T');
+SELECT nom_curt, nom_llarg
+	FROM candidatures 
+WHERE candidatura_id IN (SELECT candidatura_id
+						FROM candidats
+						WHERE num_ordre = 1);
 ```
-**3. Fes un recompte dels municipis van participar a les eleccions de l'any 2004.**
+**3. Fes un recompte dels municipis van participar a les eleccions de l'any 2016.**
 ```sql
 SELECT COUNT(municipi_id)
 	FROM eleccions_municipis 
-WHERE eleccio_id IN(SELECT eleccio_id
+    WHERE eleccio_id IN(SELECT eleccio_id
 						FROM eleccions
-                    WHERE any = 2004);
+                        WHERE any = 2016);
 
 ```
 **4. Mostra les elecciones amb més vots en blanc que les eleccions de l'any 2017.**
