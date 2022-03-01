@@ -9,8 +9,6 @@ public class Main {
     public static Connection con;
 
     public static void main(String[] args) {
-
-
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
 
@@ -23,31 +21,41 @@ public class Main {
             //Importacio de les Comunitats Autonomes
             Importacions.importarComunitatsAutonomes();
 
-<<<<<<< Updated upstream
-=======
-            //Importacio de les eleccions
-            Importacions.importareleccions();
-
-            //Importacio de provincies
+            //Importacio de les Provincies
             Importacions.importarProvincies();
 
-            //Importacio de municipis
+            //Importacio de les Municipis
             Importacions.importarMunicipis();
 
-            //Importacio de Partits Canditatures
-            Importacions.importarPartitsCandtatures();
-            //System.out.println(Importacions.treureprovincia_id(6));
-            //Importacio de Vots a nivell municipal
+            //Importacio de Eleccions
+            Importacions.importarEleccions();
+
+            //Importacio de eleccions_municipis
+            Importacions.importarEleccionsMunicipi();
+
+            //Importacio de les Persones
+            Importacions.importarPersones();
+
+            //Importacio de les Candidatures
+            Importacions.importarCandidatures();
+
+            //Importacio de les Candidats
+            Importacions.importarCandidats();
+
+            //Importacio de les Vots Candidatures per Provincies
+            Importacions.importarVotsProvincies();
+
+            //Importacio de les Vots Candidatures per Provincies
+            Importacions.importarVotsCandidatures_ca();
+
+            //Importacio de Vots Candidatures per Municipis
             Importacions.importarVotsMunicipis();
->>>>>>> Stashed changes
-            //Tanquem la connexi?
-            //con.close();
+
+
+            //Tanquem la connexió
+            con.close();
         } catch (Exception e) {
             System.out.println(e);
         }
-
-       Importacions.importarProvincies();
-        Importacions.importarVotsMunicipis();
-
-        }
     }
+}

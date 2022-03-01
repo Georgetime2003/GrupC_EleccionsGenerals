@@ -4,14 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-
-    <list default="true" id="a041d355-3fe7-44b7-ac58-d2a6a65a92a1" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/projecteBD/src/basedades/Importacions.java" beforeDir="false" afterPath="$PROJECT_DIR$/projecteBD/src/basedades/Importacions.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/projecteBD/src/basedades/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/projecteBD/src/basedades/Main.java" afterDir="false" />
-    </list>
-=======
-    <list default="true" id="c7ea1b57-21cf-436f-8385-d56129615b10" name="Changes" comment="" />
->>>>>>> Stashed changes
+    <list default="true" id="a041d355-3fe7-44b7-ac58-d2a6a65a92a1" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -20,17 +13,12 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-
-  <component name="ProjectId" id="2598nvZleJXvyn43BCIxcbZVmq9" />
-=======
   <component name="ProjectId" id="25krptqzOIeYjipRVVe4CPU4oFe" />
->>>>>>> Stashed changes
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
-
     <property name="Downloaded.Files.Path.Enabled" value="false" />
     <property name="Repository.Attach.Annotations" value="false" />
     <property name="Repository.Attach.JavaDocs" value="false" />
@@ -39,16 +27,15 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/projecteBD" />
-=======
+    =======
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/Model SQL BD/projecteBD" />
->>>>>>> Stashed changes
+    &gt;&gt;&gt;&gt;&gt;&gt;&gt; Stashed changes
     <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.0" />
   </component>
-
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\lenovo\Documents\GitHub\GrupC_EleccionsGenerals" />
@@ -57,11 +44,11 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="a041d355-3fe7-44b7-ac58-d2a6a65a92a1" name="Changes" comment="" />
-      <created>1644928111759</created>
+      <changelist id="c7ea1b57-21cf-436f-8385-d56129615b10" name="Changes" comment="" />
+      <created>1646082115863</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1644928111759</updated>
+      <updated>1646082115863</updated>
     </task>
     <servers />
   </component>
@@ -77,17 +64,4 @@
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
-=======
-  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
-  <component name="TaskManager">
-    <task active="true" id="Default" summary="Default task">
-      <changelist id="c7ea1b57-21cf-436f-8385-d56129615b10" name="Changes" comment="" />
-      <created>1646082115863</created>
-      <option name="number" value="Default" />
-      <option name="presentableId" value="Default" />
-      <updated>1646082115863</updated>
-    </task>
-    <servers />
-  </component>
->>>>>>> Stashed changes
 </project>
