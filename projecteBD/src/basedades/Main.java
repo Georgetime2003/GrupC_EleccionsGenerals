@@ -9,6 +9,11 @@ public class Main {
     public static Connection con;
 
     public static void main(String[] args) {
+
+        //Descomprimir els .DAT de un zip concret
+        TractarFitxers.descomprimirDATsZip();
+
+        //Fer la conexio a la base de dades i les importacions
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
 
