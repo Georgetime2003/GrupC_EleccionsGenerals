@@ -19,9 +19,9 @@ SELECT municipi_id, vots_valids, vots_blanc, vots_nul
 WHERE num_meses > 2
 GROUP BY municipi_id;
 ```
-**4. Mostra la província_id, el número d'escons i el nom de cada província amb la seva primera lletra en majúscula i la resta en minúscula.**
+**4.  Mostra la província_id, el número d'escons i el nom de cada província amb la seva primera lletra en minúscula i la resta en majúscula.**
 ```sql
-SELECT circumscripcio_id, CONCAT(UPPER(LEFT(nom,1)), LOWER(SUBSTRING(nom, 2,LENGTH(nom)))) AS nom
+SELECT provincia_id,num_escons, CONCAT(LOWER(LEFT(nom,1)), UPPER(SUBSTRING(nom, 2,LENGTH(nom)))) AS nom
 	FROM provincies;
 ```
 **5. Volem saber quins són els candidats i quants vots han obtingut.**
