@@ -10,5 +10,6 @@
     <orderEntry type="library" name="commons-collections4-4.1" level="project" />
     <orderEntry type="library" name="commons-compress-1.21" level="project" />
     <orderEntry type="library" name="mysql.connector.java" level="project" />
+    <orderEntry type="library" name="commons-io-2.11.0" level="project" />
   </component>
 </module>
